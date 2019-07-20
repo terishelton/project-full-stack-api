@@ -20,10 +20,20 @@ app.use(require('body-parser').json())
 app.use('/api/v1/units', require('./api/routes/units'))
 
 // Not Found Error Handler
-
+app.use((req, res, next) => {
+    const error = new Error(`Could not ${req.method} ${req.path}`)
+    error.status = 404
+    next(error)
+})
 
 // Error Handler
+app.use((err, req, res, next) => {
+    if (NODE_ENV === 'development') console.error(err)
+    const { message, status } = err
+    res.status(status).json({ status, message })
+})
+
 
 // Open Connection
-const listener = () => console.log('You are doing a thing!')
+const listener = () => console.log('Listening on port ' + PORT)
 app.listen(PORT, listener)
