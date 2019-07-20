@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const app = express()
 
-// body-parser
-
 // Set up DB connection
 if (MONGO_DB_CONNECTION) {
     mongoose.connect(MONGO_DB_CONNECTION, { useNewUrlParser: true, useFindAndModify: false })
