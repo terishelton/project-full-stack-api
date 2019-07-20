@@ -1,0 +1,29 @@
+{
+  "name": "project-full-stack-api",
+  "version": "1.0.0",
+  "description": "Coworking API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terishelton/project-full-stack-api.git"
+  },
+  "keywords": [],
+  "author": "Teri Shelton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terishelton/project-full-stack-api/issues"
+  },
+  "homepage": "https://github.com/terishelton/project-full-stack-api#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.5",
+    "morgan": "^1.9.1"
+  }
+}
