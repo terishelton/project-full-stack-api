@@ -13,7 +13,7 @@ var schema = new Schema({
     special_monthly_offer: {
         type: Number
     },
-    company: [{
+    company: {
         name: {
             type: String,
             required: true
@@ -49,7 +49,7 @@ var schema = new Schema({
                 match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             }
         }]
-    }]
+    }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updatedAt' }
 });
