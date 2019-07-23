@@ -16,8 +16,9 @@ if (MONGO_DB_CONNECTION) {
 if (NODE_ENV === 'development') app.use(morgan('dev'))
 app.use(require('body-parser').json())
 
-// Routes - TBD
+// Routes
 app.use('/api/v1/units', require('./api/routes/units'))
+app.use('/api/v1/units/:unitID/company', require('./api/routes/company'))
 
 // Not Found Error Handler
 app.use((req, res, next) => {

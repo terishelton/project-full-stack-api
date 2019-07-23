@@ -66,39 +66,6 @@ router.patch('/:id', helpers.validate, (req, res, next) => {
         e.status = 404
         next(e)
     })
-
-    
-
-    // Units.findOneAndUpdate({
-    //      _id: id
-    // }, {
-    //     kind: req.body.kind,
-    //     floor: req.body.floor,
-    //     special_monthly_offer: req.body.special_monthly_offer,
-    //     company: {
-    //         name: req.body.name,
-    //         contact_email: req.body.contact_email,
-    //         employees: [{
-    //             first_name: req.body.first_name,
-    //             last_name: req.body.last_name,
-    //             preferred_name: req.body.preferred_name,
-    //             position: req.body.position,
-    //             birthday: req.body.birthday,
-    //             email: req.body.email
-    //         }]
-    //     }
-    // }, {
-    //     new: true
-    // }).then(response => {
-    //     console.log(response)
-    //     res.json({ status, response })
-    // }).catch(error => {
-    //     // report back error if can't add
-    //     console.log(error)
-    //     const e = new Error('Sorry, could not find that unit.')
-    //     e.status = 404
-    //     next(e)
-    // })
 })
 
 module.exports = router
