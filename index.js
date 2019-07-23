@@ -19,6 +19,8 @@ app.use(require('body-parser').json())
 // Routes
 app.use('/api/v1/units', require('./api/routes/units'))
 app.use('/api/v1/units/:unitID/company', require('./api/routes/company'))
+app.use('/api/v1/companies', require('./api/routes/companies'))
+app.use('/api/v1/employees', require('./api/routes/employees'))
 
 // Not Found Error Handler
 app.use((req, res, next) => {

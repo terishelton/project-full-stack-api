@@ -13,13 +13,15 @@ router.get('/', (req, res, next) => {
 
         // check to see if asking if occupied is false and return entries with a null company entry
         if (value == 'false') {
-            // TODO: need to fix this!!
-            Units.find({ company: [] }).select('-__v').then(response => {
+            // if company is null, return them
+            Units.find({ company: null }).select('-__v').then(response => {
+                console.log('false is running')
                 res.json({ status, response })
             })
         } else {
-            // otherwise, return only units that are occupied
-            Units.find().select('-__v').then(response => {
+            // otherwise (e.g. if true), return only units that are not null or empty
+            Units.find({ 'company': { $nin: [null, {}]} }).select('-__v').then(response => {
+                console.log('true is running')
                 res.json({ status, response })
             })
         }
