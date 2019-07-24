@@ -13,6 +13,7 @@ router.get('/', async (req, res, next) => {
         const nameMatches = await Units.find({ 'company.name': new RegExp(value, 'i') })
         res.json({ status, nameMatches })
 
+        //TODO: Finish this
     } else if (Object.keys(query) == 'employees_lte') {
         //const lessThanEqual = await Units.find().count()
         // const lessThanEqual = await Units.aggregate([{
@@ -24,6 +25,7 @@ router.get('/', async (req, res, next) => {
         // console.log(lessThanEqual)
         // res.json({ status, lessThanEqual })
 
+        // TODO: finish this
     } else if (Object.keys(query) == 'employees_gte') {
 
     } else {
