@@ -74,20 +74,21 @@ router.delete('/', async (req, res, next) => {
 // Thing.find().exists('name', false);
 
 // get all employees for company
-// TODO: needs error checking
 router.get('/employees', async (req, res, next) => {
     try {
         const status = 200
         const unit = await Units.findById(req.params.unitID)
-
-        //const company = await unit.({ company: null })
-        const employees = await unit.company.employees
-
-        // if (!unit) {
-        //     throw new Error('No company assigned to this unit.')
-        // }
-
-        res.json({ status, employees })
+        
+        if (unit.company == '{ employees: [] }' ) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No company assigned to this unit.' }
+            next(error)
+        } else {
+            const unit = await Units.findById(req.params.unitID)
+            const employees = await unit.company.employees
+            res.json({ status, employees })
+        }
+        
     }
     catch(error) {
         // report back error if unit ID not found
@@ -99,88 +100,120 @@ router.get('/employees', async (req, res, next) => {
 })
 
 // get employee by ID
-// TODO: needs error checking
 router.get('/employees/:id', async (req, res, next) => {
     try {
         const status = 200
         const unit = await Units.findById(req.params.unitID)
         const employee = await unit.company.employees.id({ _id: req.params.id })
 
-        res.json({ status, employee })
+        if (unit.company == '{ employees: [] }' ) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No company assigned to this unit.' }
+            next(error)
+        } else if (!employee) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No employee with that ID.' }
+            next(error)
+        } else {
+            res.json({ status, employee })
+        }
     }
     catch(error) {
         // report back error if ...
         console.log(error)
-        const e = new Error('Fill this in')
+        const e = new Error('Unit not found.')
         e.status = 404
         next(e)
     }
 })
 
 // Create new employees and add to the unit/company
-// TODO: needs error checking
 router.post('/employees', async (req, res, next) => {
     try {
         const status = 201
         const unit = await Units.findById(req.params.unitID)
         const allEmployees = unit.company.employees
     
-        allEmployees.push(req.body)
-        await unit.save()
-
-        const newEmployee = unit.company.employees[unit.company.employees.length - 1]
-        res.json({ status, newEmployee })
+        if (unit.company == '{ employees: [] }' ) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No company assigned to this unit.' }
+            next(error)
+        } else {
+            allEmployees.push(req.body)
+            await unit.save()
+    
+            const newEmployee = unit.company.employees[unit.company.employees.length - 1]
+            res.json({ status, newEmployee })
+        }
     }
     catch(error) {
-        // report back error if 
+        // report back error if unit ID does not exist
         console.log(error)
-        const e = new Error('Create new employee failed.')
+        const e = new Error('Unit ID does not exist.')
         e.status = 404
         next(e)
     }
 })
 
 // Update an employee by ID
-// TODO: needs error checking
 router.patch('/employees/:id', async (req, res, next) => {
     try {
         const status = 201
         const unit = await Units.findById(req.params.unitID)
         const employee = unit.company.employees.id({ _id: req.params.id })
     
-        employee.set(req.body)
-        await unit.save()
-
-        // grab updated employee info
-        const updatedEmployee = unit.company.employees.id({ _id: req.params.id })
-        res.json({ status, updatedEmployee })
+        if (unit.company == '{ employees: [] }' ) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No company assigned to this unit.' }
+            next(error)
+        } else if (!employee) {
+            console.log('no employee with that ID!')
+            const error = { status: 404, message: 'No employee with that ID.' }
+            next(error)
+        } else {
+            employee.set(req.body)
+            await unit.save()
+    
+            // grab updated employee info
+            const updatedEmployee = unit.company.employees.id({ _id: req.params.id })
+            res.json({ status, updatedEmployee })
+        }
     }
     catch(error) {
-        // report back error if ...
+        // report back error if there's no Unit ID match
         console.log(error)
-        const e = new Error('Fill this in')
+        const e = new Error("Sorry, that Unit ID doesn't exist.")
         e.status = 404
         next(e)
     }
 })
 
 // Delete an employee by ID
-// TODO: needs error checking
 router.delete('/employees/:id', async (req, res, next) => {
     try {
         const status = 200
         const unit = await Units.findById(req.params.unitID)
         const employee = unit.company.employees.id({ _id: req.params.id })
 
-        employee.remove()
-        await unit.save()
-
-        res.json({ status, employee })
+        if (unit.company == '{ employees: [] }' ) {
+            console.log('company not assigned!')
+            const error = { status: 404, message: 'No company assigned to this unit.' }
+            next(error)
+        } else if (!employee) {
+            console.log('no employee with that ID!')
+            const error = { status: 404, message: 'No employee with that ID.' }
+            next(error)
+        } else {
+            employee.remove()
+            await unit.save()
+    
+            res.json({ status, employee })
+        } 
     }
     catch(error) {
-        // report back error if ...
+        // report back error if there's no unit ID match
         console.log(error)
-        const e = new Error('Unable to delete employee')
+        const e = new Error("Unit ID doesn't match")
         e.status = 404
         next(e)
     }

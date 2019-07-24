@@ -34,7 +34,7 @@ router.get('/', (req, res, next) => {
     }
 })
 
-// Temp route to create a unit for testing because this isn't in the assignment! There may be a reason for that, but I want to test.
+// Temp route to create a unit for testing because this isn't in the assignment! There may be a reason for that, but I need to get data in to test.
 router.post('/', helpers.validate, (req, res, next) => {
     const status = 201
     Units.create(req.body).then(response => {
